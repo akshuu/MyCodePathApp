@@ -80,8 +80,14 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
                     Toast.makeText(TodoActivity.this,"Please enter some text",Toast.LENGTH_LONG).show();
                     txtNewItem.requestFocus();
                 }else{
-                    items.add(txtNewItem.getText().toString());
-                    Todo todo = new Todo(txtNewItem.getText().toString(),"");
+                    String name = txtNewItem.getText().toString();
+                    if(items.contains(name)){
+                        Toast.makeText(TodoActivity.this,"Item already exists.",Toast.LENGTH_LONG).show();
+                        txtNewItem.requestFocus();
+                        return;
+                    }
+                    items.add(name);
+                    Todo todo = new Todo(name,"");
                     Long id = mSql.insert(db,todo);
                     Log.i("Todo","Inserted item : " + id);
                     todoAdapter.notifyDataSetChanged();
@@ -133,6 +139,13 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
     @Override
     public void onUpdate(Todo todo, int mPosition) {
         Log.i("Todo","Updating item : " + todo.name + " , desc = " + todo.description);
+        List<String> tempItems = new ArrayList<>(items);
+        tempItems.remove(mPosition);
+        if(tempItems.contains(todo.name)){
+            Toast.makeText(TodoActivity.this,"Item already exists.",Toast.LENGTH_LONG).show();
+            txtNewItem.requestFocus();
+            return;
+        }
         Long id = mSql.update(db,todo);
         items.remove(mPosition);
         items.add(mPosition,todo.name);
