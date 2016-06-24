@@ -23,7 +23,7 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
 
     ListView lstView;
     TodoAdapter todoAdapter;
-    List<String> items;
+    List<Todo> items;
     Button btnAdd;
     TextView txtNewItem;
     TodoSql mSql;
@@ -55,13 +55,11 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         List<Todo> list = mSql.get(db);
 
         items.clear();
-        for(Todo t:list){
-            items.add(t.name);
-        }
-
+        items.addAll(list);
         if(todoAdapter == null)
-            todoAdapter = new TodoAdapter(TodoActivity.this,R.layout.list_item,items);
+            todoAdapter = new TodoAdapter(TodoActivity.this,list);
         lstView.setAdapter(todoAdapter);
+        todoAdapter.setItems(items);
         todoAdapter.notifyDataSetChanged();
 
         return 0;
@@ -81,15 +79,17 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
                     txtNewItem.requestFocus();
                 }else{
                     String name = txtNewItem.getText().toString();
-                    if(items.contains(name)){
+                    boolean found = isFound(items,name);
+                    if(found){
                         Toast.makeText(TodoActivity.this,"Item already exists.",Toast.LENGTH_LONG).show();
                         txtNewItem.requestFocus();
                         return;
                     }
-                    items.add(name);
                     Todo todo = new Todo(name,"");
+                    items.add(todo);
                     Long id = mSql.insert(db,todo);
                     Log.i("Todo","Inserted item : " + id);
+                    todoAdapter.setItems(items);
                     todoAdapter.notifyDataSetChanged();
                     txtNewItem.setText("");
                 }
@@ -97,15 +97,26 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         });
     }
 
+    private boolean isFound(List<Todo> items,String name) {
+        boolean found = false;
+
+        for(Todo t: items){
+            if(t.name.equalsIgnoreCase(name))
+                found = true;
+        }
+        return found;
+    }
+
     // Handles the removal & edit listeners to the list view
     private void setupListOperations() {
         lstView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String name = items.get(position);
-                Log.i("Todo","Removing : " + name);
+                Todo todo = items.get(position);
+                Log.i("Todo","Removing : " + todo.name);
                 items.remove(position);
-                mSql.delete(db,name);
+                mSql.delete(db,todo.name);
+                todoAdapter.setItems(items);
                 todoAdapter.notifyDataSetChanged();
                 return true;
             }
@@ -115,7 +126,8 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("Todo","Item to be edited : " + position);
-                showEditDialog(items.get(position),position);
+                Todo todo = items.get(position);
+                showEditDialog(todo.name,position);
             }
         });
     }
@@ -139,18 +151,20 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
     @Override
     public void onUpdate(Todo todo, int mPosition) {
         Log.i("Todo","Updating item : " + todo.name + " , desc = " + todo.description);
-        List<String> tempItems = new ArrayList<>(items);
+        List<Todo> tempItems = new ArrayList<>(items);
         tempItems.remove(mPosition);
-        if(tempItems.contains(todo.name)){
+        boolean found = isFound(tempItems,todo.name);
+        if(found){
             Toast.makeText(TodoActivity.this,"Item already exists.",Toast.LENGTH_LONG).show();
             txtNewItem.requestFocus();
             return;
         }
         Long id = mSql.update(db,todo);
         items.remove(mPosition);
-        items.add(mPosition,todo.name);
+        items.add(mPosition,todo);
+        todoAdapter.setItems(items);
         todoAdapter.notifyDataSetChanged();
-        Log.i("Todo","Inserted item : " + id);
+        Log.i("Todo","Inserted item : " + items.toString());
 
     }
 }

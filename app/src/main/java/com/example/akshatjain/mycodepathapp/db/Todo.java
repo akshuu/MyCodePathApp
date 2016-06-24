@@ -29,4 +29,13 @@ public class Todo {
         this.name = name;
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "_id=" + _id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
