@@ -1,4 +1,4 @@
-package com.example.akshatjain.mycodepathapp;
+package com.example.akshatjain.mycodepathapp.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.akshatjain.mycodepathapp.R;
 import com.example.akshatjain.mycodepathapp.db.Todo;
 
 
