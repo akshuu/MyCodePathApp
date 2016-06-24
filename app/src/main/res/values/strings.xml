@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyCodePathApp</string>
+    <string name="app_name">ToDo-Simplify</string>
     <string name="add_item">Add new item</string>
     <string name="addItem">Add Item</string>
 
