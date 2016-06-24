@@ -1,4 +1,4 @@
-package com.example.akshatjain.mycodepathapp;
+package com.example.akshatjain.mycodepathapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.akshatjain.mycodepathapp.R;
 import com.example.akshatjain.mycodepathapp.db.Todo;
 
 import org.w3c.dom.Text;

@@ -1,4 +1,4 @@
-package com.example.akshatjain.mycodepathapp;
+package com.example.akshatjain.mycodepathapp.activities;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.akshatjain.mycodepathapp.fragments.EditItemFragment;
+import com.example.akshatjain.mycodepathapp.R;
+import com.example.akshatjain.mycodepathapp.adapter.TodoAdapter;
 import com.example.akshatjain.mycodepathapp.db.Todo;
 import com.example.akshatjain.mycodepathapp.db.TodoSql;
 
