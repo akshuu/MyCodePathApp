@@ -75,13 +75,13 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(txtNewItem.getText())){
-                    Toast.makeText(TodoActivity.this,"Please enter some text",Toast.LENGTH_LONG).show();
+                    Toast.makeText(TodoActivity.this,getString(R.string.blankItemName),Toast.LENGTH_LONG).show();
                     txtNewItem.requestFocus();
                 }else{
                     String name = txtNewItem.getText().toString();
                     boolean found = isFound(items,name);
                     if(found){
-                        Toast.makeText(TodoActivity.this,"Item already exists.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(TodoActivity.this,getString(R.string.itemExists),Toast.LENGTH_LONG).show();
                         txtNewItem.requestFocus();
                         return;
                     }
@@ -125,7 +125,7 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         lstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("Todo","Item to be edited : " + position);
+                Log.d("Todo","Item to be edited : " + position);
                 Todo todo = items.get(position);
                 showEditDialog(todo.name,position);
             }
@@ -155,11 +155,12 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         tempItems.remove(mPosition);
         boolean found = isFound(tempItems,todo.name);
         if(found){
-            Toast.makeText(TodoActivity.this,"Item already exists.",Toast.LENGTH_LONG).show();
+            Toast.makeText(TodoActivity.this,getString(R.string.itemExists),Toast.LENGTH_LONG).show();
             txtNewItem.requestFocus();
             return;
         }
         Long id = mSql.update(db,todo);
+        //replace the item from the list & update the dataset
         items.remove(mPosition);
         items.add(mPosition,todo);
         todoAdapter.setItems(items);

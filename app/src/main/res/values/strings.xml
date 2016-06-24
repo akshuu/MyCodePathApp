@@ -8,4 +8,6 @@
     <string name="name">Item Name</string>
     <string name="desc">Description</string>
     <string name="editItem">Edit Item</string>
+    <string name="itemExists">Item already exists.</string>
+    <string name="blankItemName">Please enter some text</string>
 </resources>

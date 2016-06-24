@@ -63,7 +63,7 @@ public class TodoSql extends SQLiteOpenHelper {
             // Iterate ToDos
             QueryResultIterable<Todo> itr = cupboard().withCursor(cTodos).iterate(Todo.class);
             for (Todo todo : itr) {
-                Log.i("Todo","Items == " + todo._id + " , name = " + todo.name + " , desc = " + todo.description);
+                Log.d("Todo","Items == " + todo._id + " , name = " + todo.name + " , desc = " + todo.description);
             }
             listTodos = itr.list();
         } finally {
