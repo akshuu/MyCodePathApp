@@ -1,4 +1,4 @@
-package com.example.akshatjain.mycodepathapp;
+package com.example.akshatjain.mycodepathapp.activities;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

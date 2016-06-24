@@ -4,7 +4,7 @@
 
 Submitted by: **Akshat Jain**
 
-Time spent: **9** hours spent in total
+Time spent: **10** hours spent in total
 
 ## User Stories
 
@@ -25,7 +25,8 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [X] List anything else that you can get done to improve the app functionality!
+ Used recycler view instead of list view
 
 ## Video Walkthrough 
 
@@ -40,7 +41,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 I couldn't get much time to devote to the app as I was travelling.
 Pending items would have been
 1. Addition of priority & due dates
-2. I am already working on using recycler view instead of list view ( in a seperate branch)
+2. Added some tests for the app
 
 
 ## License

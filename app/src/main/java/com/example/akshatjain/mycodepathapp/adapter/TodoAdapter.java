@@ -1,17 +1,16 @@
 package com.example.akshatjain.mycodepathapp.adapter;
 
-import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.akshatjain.mycodepathapp.fragments.EditItemFragment;
 import com.example.akshatjain.mycodepathapp.R;
 import com.example.akshatjain.mycodepathapp.db.Todo;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,58 +19,72 @@ import java.util.List;
  * Adapter for Recycler view
  * Created by akshatjain on 6/22/16.
  */
-public class TodoAdapter extends BaseAdapter {
+public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder> {
 
-    private List<Todo> mItems;
-    private Context mContext;
+    List<Todo> mItems;
+    private AppCompatActivity mContext;
+    private int mItemResource;
 
-    public TodoAdapter(Context context, List<Todo> items) {
+
+    public TodoAdapter(AppCompatActivity context, List<Todo> items, int itemResource) {
         mItems = new ArrayList<>(items);
         mContext = context;
+        mItemResource = itemResource;
     }
 
     public void setItems(List<Todo> items){
         mItems.clear();
         mItems.addAll(items);
+        notifyItemRangeChanged(0,items.size());
     }
+
     @Override
-    public int getCount() {
+    public TodoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(this.mItemResource, parent, false);
+        return new TodoHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(TodoHolder holder, int position) {
+        Todo todo = mItems.get(position);
+        holder.bindTodos(todo);
+
+    }
+
+    @Override
+    public int getItemCount() {
         return mItems.size();
+
     }
 
-    @Override
-    public Object getItem(int position) {
-        return mItems.get(position);
-    }
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
+    /**
+     * Holder class for the views
+     */
+    class TodoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        TextView txtName ;
-        TextView txtDesc ;
+        private Todo mTodo;
+        private TextView name;
+        private TextView desc;
 
-        Todo item = (Todo) getItem(position);
-        TodoHolder holder;
-        if(convertView == null){
-            holder = new TodoHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
-            holder.name = (TextView) convertView.findViewById(R.id.textItem);
-            holder.desc = (TextView) convertView.findViewById(R.id.textItemDesc);
-            convertView.setTag(holder);
-        }else{
-            holder = (TodoHolder) convertView.getTag();
+        public TodoHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.textItem);
+            desc = (TextView) itemView.findViewById(R.id.textItemDesc);
+            itemView.setOnClickListener(this);
+
         }
-        holder.name.setText(item.name);
-        holder.desc.setText(item.description);
-        return convertView;
-    }
 
-    public static class TodoHolder{
-        TextView name;
-        TextView desc;
+        public void bindTodos(Todo todo){
+            this.mTodo = todo;
+            name.setText(todo.name);
+            desc.setText(todo.description);
+        }
+
+        @Override
+        public void onClick(View v) {
+        }
+
     }
 }
