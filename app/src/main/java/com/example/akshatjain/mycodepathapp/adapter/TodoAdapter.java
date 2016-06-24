@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Adapter for Recycler view
  * Created by akshatjain on 6/22/16.
  */
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder> {
