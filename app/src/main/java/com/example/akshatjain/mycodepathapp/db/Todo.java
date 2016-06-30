@@ -13,6 +13,11 @@ public class Todo {
     public String name;
     @Column("desc")
     public String description;
+    @Column("priority")
+    public int priority = 0;
+    @Column("duedate")
+    public String dueDate;
+
 
     public Todo() {
         name = "";
@@ -30,12 +35,33 @@ public class Todo {
         this.description = description;
     }
 
+    public Todo(String name, String desc, int priority) {
+        this.name = name;
+        this.description = desc;
+        this.priority = priority;
+    }
+
     @Override
     public String toString() {
         return "Todo{" +
                 "_id=" + _id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", priority =" + getPriority() +
                 '}';
     }
+
+    public String getPriority() {
+        switch (priority){
+            case 0:
+                return "LOW";
+            case 1:
+                return "MEDIUM";
+            case 2:
+                return "HIGH";
+            default:
+                return "LOW";
+        }
+    }
+
 }

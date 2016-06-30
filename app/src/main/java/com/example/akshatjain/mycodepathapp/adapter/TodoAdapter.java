@@ -1,6 +1,6 @@
 package com.example.akshatjain.mycodepathapp.adapter;
 
-import android.support.v4.app.FragmentManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.akshatjain.mycodepathapp.fragments.EditItemFragment;
 import com.example.akshatjain.mycodepathapp.R;
 import com.example.akshatjain.mycodepathapp.db.Todo;
 
@@ -42,7 +41,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder> {
     public TodoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(this.mItemResource, parent, false);
-        return new TodoHolder(view);
+        return new TodoHolder(mContext,view);
     }
 
     @Override
@@ -67,11 +66,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder> {
         private Todo mTodo;
         private TextView name;
         private TextView desc;
-
-        public TodoHolder(View itemView) {
+        private TextView priority;
+        private Context mContext;
+        public TodoHolder(AppCompatActivity context, View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.textItem);
+            mContext = context;
+            name = (TextView) itemView.findViewById(R.id.textItemName);
             desc = (TextView) itemView.findViewById(R.id.textItemDesc);
+            priority = (TextView) itemView.findViewById(R.id.txtPriority);
             itemView.setOnClickListener(this);
 
         }
@@ -80,6 +82,19 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder> {
             this.mTodo = todo;
             name.setText(todo.name);
             desc.setText(todo.description);
+            priority.setText(todo.getPriority());
+            switch (todo.priority){
+                case 0:
+                    priority.setTextColor(mContext.getResources().getColor(R.color.blue));
+                    break;
+                case 1:
+                    priority.setTextColor(mContext.getResources().getColor(R.color.green));
+                    break;
+                case 2:
+                    priority.setTextColor(mContext.getResources().getColor(R.color.red));
+                    break;
+
+            }
         }
 
         @Override

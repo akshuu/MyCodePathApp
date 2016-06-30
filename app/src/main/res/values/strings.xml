@@ -1,13 +1,14 @@
 <resources>
-    <string name="app_name">ToDo-Simplify</string>
+    <string name="app_name">Simpli-Do</string>
     <string name="add_item">Add new item</string>
-    <string name="addItem">Add Item</string>
+    <string name="addItem">Add item</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="name">Item Name</string>
+    <string name="name">Item name</string>
     <string name="desc">Description</string>
-    <string name="editItem">Edit Item</string>
+    <string name="editItem">Edit item</string>
     <string name="itemExists">Item already exists.</string>
     <string name="blankItemName">Please enter some text</string>
+    <string name="item_name">Item name</string>
+    <string name="item_description">Item description</string>
+    <string name="createNew">Create new todo</string>
 </resources>

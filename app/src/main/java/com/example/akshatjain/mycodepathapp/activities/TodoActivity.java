@@ -2,9 +2,14 @@ package com.example.akshatjain.mycodepathapp.activities;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -20,15 +25,17 @@ import com.example.akshatjain.mycodepathapp.R;
 import com.example.akshatjain.mycodepathapp.adapter.TodoAdapter;
 import com.example.akshatjain.mycodepathapp.db.Todo;
 import com.example.akshatjain.mycodepathapp.db.TodoSql;
+import com.example.akshatjain.mycodepathapp.fragments.AddFragment;
 import com.example.akshatjain.mycodepathapp.fragments.EditItemFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TodoActivity extends AppCompatActivity implements EditItemFragment.OnFragmentInteractionListener {
+import static android.R.attr.data;
 
+public class TodoActivity extends AppCompatActivity implements EditItemFragment.OnFragmentInteractionListener, AddFragment.AddListener {
 
-    public static interface ClickListener{
+        public static interface ClickListener{
         void onClick(View view, int position);
         void onLongClick(View view, int position);
     }
@@ -36,8 +43,7 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
     RecyclerView lstView;
     TodoAdapter todoAdapter;
     List<Todo> items;
-    Button btnAdd;
-    TextView txtNewItem;
+    FloatingActionButton fab;
     TodoSql mSql;
     private SQLiteDatabase db;
 
@@ -46,22 +52,31 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
         lstView = (RecyclerView) findViewById(R.id.listView);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
-        txtNewItem = (TextView) findViewById(R.id.txtNew);
         items = new ArrayList<>();
         mSql = new TodoSql(this);
         db = mSql.getWritableDatabase();
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         lstView.setLayoutManager(new LinearLayoutManager(this));
+        lstView.setItemAnimator(new DefaultItemAnimator());
 
         setupListAdd();
 
         setupListOperations();
+
+//        FragmentManager fm = getSupportFragmentManager();
+//        EditItemFragment editItemFragment = (EditItemFragment) fm.findFragmentByTag("fragment_edit_item");
+//        AddFragment addFragment = (AddFragment) fm.findFragmentByTag("addFragment");
+//         create the fragmentsent and data the first time
+//        if (editItemFragment == null && addFragment == null) {
+//             add the fragment
+//        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        getSupportActionBar().setTitle(getString(R.string.app_name));
         readFromDb();
     }
 
@@ -84,31 +99,35 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         super.onPause();
     }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentByTag("addFragment");
+        if(fragment != null){
+            fm.popBackStack();
+            restoreState();
+        }else{
+            super.onBackPressed();
+        }
+    }
+
     private void setupListAdd() {
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(TextUtils.isEmpty(txtNewItem.getText())){
-                    Toast.makeText(TodoActivity.this,getString(R.string.blankItemName),Toast.LENGTH_LONG).show();
-                    txtNewItem.requestFocus();
-                }else{
-                    String name = txtNewItem.getText().toString();
-                    boolean found = isFound(items,name);
-                    if(found){
-                        Toast.makeText(TodoActivity.this,getString(R.string.itemExists),Toast.LENGTH_LONG).show();
-                        txtNewItem.requestFocus();
-                        return;
-                    }
-                    Todo todo = new Todo(name,"");
-                    items.add(todo);
-                    Long id = mSql.insert(db,todo);
-                    Log.i("Todo","Inserted item : " + id);
-                    todoAdapter.setItems(items);
-                    todoAdapter.notifyDataSetChanged();
-                    txtNewItem.setText("");
-                }
+            public void onClick(View view) {
+                AddFragment addFragment = AddFragment.newInstance();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.fragmentLayout,addFragment,"addFragment");
+                ft.addToBackStack(null);
+                ft.commit();
+                lstView.setVisibility(View.GONE);
+                fab.setVisibility(View.GONE);
+
             }
         });
+
     }
 
     private boolean isFound(List<Todo> items,String name) {
@@ -160,6 +179,14 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         if(editItemFragment != null){
             editItemFragment.dismiss();
         }
+        restoreState();
+
+    }
+
+    private void restoreState() {
+        lstView.setVisibility(View.VISIBLE);
+        fab.setVisibility(View.VISIBLE);
+        getSupportActionBar().setTitle(getString(R.string.app_name));
     }
 
     @Override
@@ -170,7 +197,6 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         boolean found = isFound(tempItems,todo.name);
         if(found){
             Toast.makeText(TodoActivity.this,getString(R.string.itemExists),Toast.LENGTH_LONG).show();
-            txtNewItem.requestFocus();
             return;
         }
         Long id = mSql.update(db,todo);
@@ -182,6 +208,19 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         Log.i("Todo","Inserted item : " + items.toString());
 
     }
+
+    @Override
+    public void onAdd(Todo newItem) {
+
+        items.add(newItem);
+        Long id = mSql.insert(db,newItem);
+        Log.i("Todo","Inserted item : " + id);
+        todoAdapter.setItems(items);
+        todoAdapter.notifyDataSetChanged();
+        restoreState();
+
+    }
+
 
 
     // Touch listeners for long and single press
