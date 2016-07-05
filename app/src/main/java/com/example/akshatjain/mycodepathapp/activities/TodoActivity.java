@@ -44,6 +44,7 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
     private TodoAdapter todoAdapter;
     private List<Todo> items;
     private FloatingActionButton fab;
+
     private TodoSql mSql;
     private SQLiteDatabase db;
 
@@ -270,5 +271,10 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
 
         }
     }
+
+    public TodoSql getSql() {
+        return mSql;
+    }
+
 
 }
