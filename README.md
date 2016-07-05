@@ -20,19 +20,20 @@ The following **optional** features are implemented:
 * [X] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
 * [ ] Add support for completion due dates for todo items (and display within listview item)
 * [X] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
-* [ ] Add support for selecting the priority of each todo item (and display in listview item)
-* [ ] Tweak the style improving the UI / UX, play with colors, images or backgrounds
+* [X] Add support for selecting the priority of each todo item (and display in listview item)
+* [X] Tweak the style improving the UI / UX, play with colors, images or backgrounds
 
 The following **additional** features are implemented:
 
-* [X] List anything else that you can get done to improve the app functionality!
- Used recycler view instead of list view
+* List anything else that you can get done to improve the app functionality!
+* [X] Used recycler view instead of list view
+* [X] Added some test cases for testing.
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/6v0lL5C.gif' title='Todo Simplify Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/nHCOAaW.gif' title='Todo Simplify Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -40,8 +41,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 I couldn't get much time to devote to the app as I was travelling.
 Pending items would have been
-1. Addition of priority & due dates
-2. Added some tests for the app
+1. Addition due dates
+2. Adding more tests for the app
 
 
 ## License
