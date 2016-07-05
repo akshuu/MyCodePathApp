@@ -1,6 +1,7 @@
 package com.example.akshatjain.mycodepathapp.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,6 +48,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder> {
     @Override
     public void onBindViewHolder(TodoHolder holder, int position) {
         Todo todo = mItems.get(position);
+        if (position % 2 == 1) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#C5CAE9"));
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#E8EAF6"));
+        }
         holder.bindTodos(todo);
 
     }
