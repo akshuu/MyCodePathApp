@@ -29,10 +29,11 @@ public class Todo {
         this.description = description;
     }
 
-    public Todo(Long id,String name, String description) {
+    public Todo(Long id,String name, String description,int priority) {
         this._id = id;
         this.name = name;
         this.description = description;
+        this.priority = priority;
     }
 
     public Todo(String name, String desc, int priority) {

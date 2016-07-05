@@ -8,11 +8,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.akshatjain.mycodepathapp.R;
+import com.example.akshatjain.mycodepathapp.activities.TodoActivity;
 import com.example.akshatjain.mycodepathapp.db.Todo;
 
 
@@ -24,16 +27,18 @@ import com.example.akshatjain.mycodepathapp.db.Todo;
  * Use the {@link EditItemFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditItemFragment extends DialogFragment {
+public class EditItemFragment extends Fragment {
     private static final String ARG_NAME = "name";
     private static final String ARG_DESC = "desc";
     private static final String ARG_ID = "id";
+    private static final String ARG_PRIORITY = "priority";
 
     private String mName;
     private String mDesc;
+    private int mPriority;
     private Long mId;
     private static int mPosition;
-
+    Spinner prioritySpinner;
     private Context mContext;
 
     private OnFragmentInteractionListener mListener;
@@ -55,6 +60,7 @@ public class EditItemFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putString(ARG_NAME, todo.name);
         args.putString(ARG_DESC, todo.description);
+        args.putInt(ARG_PRIORITY, todo.priority);
         args.putLong(ARG_ID, todo._id);
         mPosition = position;
         fragment.setArguments(args);
@@ -67,8 +73,12 @@ public class EditItemFragment extends DialogFragment {
         if (getArguments() != null) {
             mName = getArguments().getString(ARG_NAME);
             mDesc = getArguments().getString(ARG_DESC);
+            mPriority = getArguments().getInt(ARG_PRIORITY);
             mId = getArguments().getLong(ARG_ID);
         }
+//        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        setRetainInstance(true);
+
     }
 
     @Override
@@ -80,9 +90,17 @@ public class EditItemFragment extends DialogFragment {
         txtName.setText(mName);
         final EditText txtDesc = (EditText) view.findViewById(R.id.editText2);
         txtDesc.setText(mDesc);
+        prioritySpinner = (Spinner) view.findViewById(R.id.spinner);
 
         Button btnOk = (Button) view.findViewById(R.id.btnSave);
         Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext,
+                R.array.priority, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        prioritySpinner.setAdapter(adapter);
+
+        prioritySpinner.setSelection(mPriority);
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +109,8 @@ public class EditItemFragment extends DialogFragment {
                     Toast.makeText(mContext,"Please enter some text",Toast.LENGTH_LONG).show();
                     return;
                 }else{
-                    Todo todo = new Todo(mId,txtName.getText().toString(),txtDesc.getText().toString());
+                    int priority = prioritySpinner.getSelectedItemPosition();
+                    Todo todo = new Todo(mId,txtName.getText().toString(),txtDesc.getText().toString(),priority);
                     if(mListener != null)
                         mListener.onUpdate(todo,mPosition);
                 }
@@ -105,7 +124,7 @@ public class EditItemFragment extends DialogFragment {
                 onButtonPressed();
             }
         });
-        getDialog().setTitle(mName);
+//        getDialog().setTitle(mName);
         return view;
     }
 
@@ -120,11 +139,12 @@ public class EditItemFragment extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        ((TodoActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.editItem));
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement AddListener");
         }
     }
 

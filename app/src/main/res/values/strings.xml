@@ -11,4 +11,7 @@
     <string name="item_name">Item name</string>
     <string name="item_description">Item description</string>
     <string name="createNew">Create new todo</string>
+    <string name="cancel">Cancel</string>
+    <string name="priority">Priority</string>
+    <string name="save">Save</string>
 </resources>

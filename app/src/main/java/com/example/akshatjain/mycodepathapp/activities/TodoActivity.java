@@ -40,11 +40,11 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         void onLongClick(View view, int position);
     }
 
-    RecyclerView lstView;
-    TodoAdapter todoAdapter;
-    List<Todo> items;
-    FloatingActionButton fab;
-    TodoSql mSql;
+    private RecyclerView lstView;
+    private TodoAdapter todoAdapter;
+    private List<Todo> items;
+    private FloatingActionButton fab;
+    private TodoSql mSql;
     private SQLiteDatabase db;
 
     @Override
@@ -64,13 +64,6 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
 
         setupListOperations();
 
-//        FragmentManager fm = getSupportFragmentManager();
-//        EditItemFragment editItemFragment = (EditItemFragment) fm.findFragmentByTag("fragment_edit_item");
-//        AddFragment addFragment = (AddFragment) fm.findFragmentByTag("addFragment");
-//         create the fragmentsent and data the first time
-//        if (editItemFragment == null && addFragment == null) {
-//             add the fragment
-//        }
     }
 
     @Override
@@ -122,12 +115,16 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
                 ft.replace(R.id.fragmentLayout,addFragment,"addFragment");
                 ft.addToBackStack(null);
                 ft.commit();
-                lstView.setVisibility(View.GONE);
-                fab.setVisibility(View.GONE);
+                setViewState(View.GONE);
 
             }
         });
 
+    }
+
+    private void setViewState(int gone) {
+        lstView.setVisibility(gone);
+        fab.setVisibility(gone);
     }
 
     private boolean isFound(List<Todo> items,String name) {
@@ -169,23 +166,28 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         FragmentManager fm = getSupportFragmentManager();
         Todo todo = mSql.get(db,name);
         EditItemFragment editItemFragment =  EditItemFragment.newInstance(todo,position);
-        editItemFragment.show(fm, "fragment_edit_item");
+//        editItemFragment.show(fm, "fragment_edit_item");
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragmentLayout,editItemFragment,"editFragment");
+        ft.addToBackStack(null);
+        ft.commit();
+        setViewState(View.GONE);
     }
 
     @Override
     public void onCancel() {
         FragmentManager fm = getSupportFragmentManager();
-        EditItemFragment editItemFragment = (EditItemFragment) fm.findFragmentByTag("fragment_edit_item");
+        EditItemFragment editItemFragment = (EditItemFragment) fm.findFragmentByTag("editFragment");
         if(editItemFragment != null){
-            editItemFragment.dismiss();
+            fm.popBackStack();
+//            editItemFragment.dismiss();
         }
         restoreState();
 
     }
 
     private void restoreState() {
-        lstView.setVisibility(View.VISIBLE);
-        fab.setVisibility(View.VISIBLE);
+        setViewState(View.VISIBLE);
         getSupportActionBar().setTitle(getString(R.string.app_name));
     }
 
@@ -206,7 +208,7 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
         todoAdapter.setItems(items);
         todoAdapter.notifyDataSetChanged();
         Log.i("Todo","Inserted item : " + items.toString());
-
+        restoreState();
     }
 
     @Override
