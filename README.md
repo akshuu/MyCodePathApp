@@ -1,10 +1,10 @@
-# Pre-work - *Todo Simplify*
+# Pre-work - *Simpli-do*
 
-**Todo Simplify** is an android app that allows building a todo list and basic todo items management functionality including adding new items, editing and deleting an existing item.
+**Simpli-do** is an android app that allows building a todo list and basic todo items management functionality including adding new items, editing and deleting an existing item.
 
 Submitted by: **Akshat Jain**
 
-Time spent: **10** hours spent in total
+Time spent: **14** hours spent in total
 
 ## User Stories
 
