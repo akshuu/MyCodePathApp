@@ -215,6 +215,10 @@ public class TodoActivity extends AppCompatActivity implements EditItemFragment.
     @Override
     public void onAdd(Todo newItem) {
 
+        if(items.contains(newItem)){
+            Toast.makeText(getBaseContext(),"Duplicate Item",Toast.LENGTH_LONG).show();
+            return;
+        }
         items.add(newItem);
         Long id = mSql.insert(db,newItem);
         Log.i("Todo","Inserted item : " + id);
