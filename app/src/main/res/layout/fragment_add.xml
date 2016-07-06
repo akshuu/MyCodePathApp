@@ -1,103 +1,142 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                tools:context="com.example.akshatjain.mycodepathapp.fragments.AddFragment">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="fill_parent"
+                                             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                                             android:layout_marginRight="@dimen/activity_horizontal_margin"
+                                             android:layout_marginBottom="@dimen/activity_vertical_margin"
+                                             tools:context="com.example.akshatjain.mycodepathapp.fragments.AddFragment"
+                                             android:id="@+id/constraintLayout2">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/name"
         android:id="@+id/textView"
         android:textColor="#000000"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout2"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="@+id/editText"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/editText"
+        tools:layout_constraintBottom_creator="1"/>
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="256dp"
+        android:layout_height="40dp"
         android:id="@+id/editText"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:inputType="text"/>
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout2"
+        android:layout_marginTop="40dp"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/constraintLayout2"
+        tools:layout_constraintRight_creator="1"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/desc"
         android:textColor="#000000"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:id="@+id/textView2"
-        android:layout_below="@+id/editText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout2"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/editText2"
+        tools:layout_constraintBaseline_creator="1"/>
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
         android:id="@+id/editText2"
         android:layout_below="@+id/editText"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:inputType="textMultiLine"
         android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"/>
+        android:layout_alignStart="@+id/editText"
+        app:layout_constraintLeft_toLeftOf="@+id/editText"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/editText"
+        android:layout_marginTop="16dp"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/editText"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <Button
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/cancel"
         android:id="@+id/btnCancel"
         android:layout_alignBaseline="@+id/btnSave"
         android:layout_alignBottom="@+id/btnSave"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        app:layout_constraintLeft_toRightOf="@+id/btnSave"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/constraintLayout2"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+        android:layout_marginBottom="16dp"
+        tools:layout_constraintBottom_creator="1"/>
 
     <TextView
         android:text="@string/priority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_below="@+id/editText2"
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignStart="@+id/textView2"
-        android:id="@+id/textView4"/>
+        android:id="@+id/textView4"
+        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout2"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        android:layout_marginTop="32dp"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintRight_toLeftOf="@+id/spinner"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
         android:layout_alignBottom="@+id/textView4"
         android:layout_alignLeft="@+id/editText"
         android:layout_alignStart="@+id/editText"
-        android:id="@+id/spinner"/>
+        android:id="@+id/spinner"
+        app:layout_constraintLeft_toLeftOf="@+id/editText2"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        android:layout_marginTop="16dp"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/editText2"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
-    <TextView
-        android:text="Due Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView4"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:id="@+id/textView6"
-        android:visibility="gone"/>
 
     <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:text="@string/save"
         android:id="@+id/btnSave"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/btnCancel"
-        android:layout_toStartOf="@+id/btnCancel"/>
+        android:layout_toStartOf="@+id/btnCancel"
+        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout2"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/constraintLayout2"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+        android:layout_marginBottom="16dp"
+        tools:layout_constraintBottom_creator="1"/>
 
-</RelativeLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
